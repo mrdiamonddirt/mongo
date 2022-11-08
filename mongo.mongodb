@@ -1,0 +1,52 @@
+// MongoDB Playground
+// To disable this template go to Settings | MongoDB | Use Default Template For Playground.
+// Make sure you are connected to enable completions and to be able to run a playground.
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// Select the database to use.
+use('mongodbVSCodePlaygroundDB');
+
+// The drop() command destroys all data from a collection.
+// Make sure you run it against the correct database and collection.
+
+db.movies.drop();
+
+// Insert a few documents into the sales collection.
+db.movies.insertMany([
+  { '_id': 1, 'movie': 'Spider-Man', 'Lead Actor':  'Tobey Maguire', 'Director': 'Sam Raimi', 'Imdb-Rating': 7.4, 'release Date': new Date('2002-04-29') },
+  { '_id': 2, 'movie': 'Spider-Man 2', 'Lead Actor': 'Tobey Maguire', 'Director': 'Sam Raimi', 'Imdb-Rating': 7.4, 'release Date': new Date('2004-06-22') },
+  { '_id': 3, 'movie': 'Spider-Man 3', 'Lead Actor': 'Tobey Maguire', 'Director': 'Sam Raimi', 'Imdb-Rating': 6.3, 'release Date': new Date('2007-04-16') },
+  { '_id': 4, 'movie': 'The Amazing Spider-Man', 'Lead Actor': 'Andrew Garfield', 'Director':  'Marc Webb', 'Imdb-Rating': 6.9, 'release Date': new Date('2012-06-13') },
+  { '_id': 5, 'movie': 'The Amazing Spider-Man 2', 'Lead Actor': 'Andrew Garfield', 'Director': 'Marc Webb', 'Imdb-Rating': 6.6, 'release Date': new Date('2014-03-31') },
+  { '_id': 6, 'movie': 'Spider-Man: Homecoming', 'Lead Actor': 'Tom Holland', 'Director': 'Jon Watts', 'Imdb-Rating': 7.4, 'release Date': new Date('2017-06-05') },
+  { '_id': 7, 'movie': 'Spider-Man: Far From Home', 'Lead Actor': 'Tom Holland', 'Director': 'Jon Watts', 'Imdb-Rating': 7.4, 'release Date': new Date('2019-07-02') },
+  { '_id': 8, 'movie': 'Spider-Man: Into the Spider-Verse', 'Lead Actor': 'Shameik Moore', 'Director': 'Bob Persichetti', 'Imdb-Rating': 8.4, 'release Date': new Date('2018-12-12') },
+  { '_id': 9, 'movie': 'Spider-Man: No Way Home', 'Lead Actor': 'Tom Holland', 'Director': 'Jon Watts', 'Imdb-Rating': 8.3, 'release Date': new Date('2021-12-17') },
+]);
+
+// Run a find command to view items sold on April 4th, 2014.
+// db.sales.find({ date: { $gte: new Date('2014-04-04'), $lt: new Date('2014-04-05') } });
+db.movies.find({})
+
+// Build an aggregation to view total sales for each product in 2014.
+// const aggregation = [
+//   { $match: { date: { $gte: new Date('2014-01-01'), $lt: new Date('2015-01-01') } } },
+//   { $group: { _id: '$item', totalSaleAmount: { $sum: { $multiply: [ '$price', '$quantity' ] } } } }
+// ];
+
+const aggregation = [
+  // return movies with director jon watts
+  // { $match: { Director: 'Jon Watts' } },
+
+  // return movies with rating above 7.4 for more than or equal to use $gte
+  { $match: { 'Imdb-Rating': { '$gt':7.4 } }}
+  // { $group: { _id: '$item', totalSaleAmount: { $sum: { $multiply: [ '$price', '$quantity' ] } } } }
+];
+
+// Run the aggregation and open a cursor to the results.
+// Use toArray() to exhaust the cursor to return the whole result set.
+// You can use hasNext()/next() to iterate through the cursor page by page.
+
+// db.sales.aggregate(aggregation);
+db.movies.aggregate(aggregation);
+
